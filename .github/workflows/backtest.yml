@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+    paths:
+      - '**.py'
+      - '**.json'
+      - '.github/workflows/**'
   workflow_dispatch:  # allows manual trigger from the Actions tab
 
 jobs:
