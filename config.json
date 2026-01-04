@@ -16,6 +16,11 @@
     "pair_whitelist": ["BTC/USDT", "ETH/USDT"],
     "pair_blacklist": []
   },
+  "pairlists": [
+    {
+      "method": "StaticPairList"
+    }
+  ],
   "telegram": {
     "enabled": false,
     "token": "",
@@ -33,7 +38,7 @@
     "password": "admin"
   },
   "bot_name": "TraderPro",
-  "forcebuy_enable": true,
+  "force_entry_enable": true,
   "internals": {
     "process_throttle_secs": 5
   }
