@@ -58,3 +58,18 @@ jobs:
         with:
           name: backtest-report
           path: results/
+     
+      - name: Notify via Discord
+        if: always()  # run even if previous step failed
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            STATUS="✅ Backtest completed successfully!"
+          else
+            STATUS="❌ Backtest failed — check logs."
+          fi
+
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d "{\"content\": \"${STATUS}\n**Repo:** $GITHUB_REPOSITORY\n**Run:** $GITHUB_RUN_NUMBER\n[View Workflow Logs]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID)\"}" \
+               ${{ secrets.DISCORD_WEBHOOK }}
+
