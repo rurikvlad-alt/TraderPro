@@ -24,7 +24,7 @@ class RSIBB_Momentum_Pro(IStrategy):
 
     def populate_indicators(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
         dataframe["rsi"] = ta.RSI(dataframe)
-        boll = qtpylib.bollinger_bands(dataframe["close"], window=20, stds=2)
+        boll = qtpylib.bollinger_bands(dataframe["close"], period=20, stds=2)
         dataframe["bb_lowerband"] = boll["lower"]
         dataframe["bb_middleband"] = boll["mid"]
         dataframe["bb_upperband"] = boll["upper"]
