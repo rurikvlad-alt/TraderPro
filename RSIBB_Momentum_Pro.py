@@ -23,17 +23,12 @@ class RSIBB_Momentum_Pro(IStrategy):
     bb_width_min = DecimalParameter(0.010, 0.050, default=0.02, space="buy")
 
     def populate_indicators(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
-        dataframe["rsi"] = ta.RSI(dataframe)
-        boll = qtpylib.bollinger_bands(dataframe["close"], period=20, stds=2)
-        dataframe["bb_lowerband"] = boll["lower"]
-        dataframe["bb_middleband"] = boll["mid"]
-        dataframe["bb_upperband"] = boll["upper"]
-        dataframe["bb_width"] = (boll["upper"] - boll["lower"]) / dataframe["bb_middleband"]
-        dataframe["ema_fast"] = ta.EMA(dataframe, timeperiod=9)
-        dataframe["ema_slow"] = ta.EMA(dataframe, timeperiod=21)
-        dataframe["momentum"] = dataframe["ema_fast"] - dataframe["ema_slow"]
-        dataframe["volume_mean_slow"] = ta.SMA(dataframe["volume"], timeperiod=30)
-        return dataframe
+    boll = qtpylib.bollinger_bands(dataframe["close"], period=20, stddev=2)
+    dataframe["bb_upperband"] = boll["upper"]
+    dataframe["bb_middleband"] = boll["mid"]
+    dataframe["bb_lowerband"] = boll["lower"]
+    dataframe["rsi"] = ta.RSI(dataframe, timeperiod=14)
+    return dataframe
 
     def populate_buy_trend(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
         dataframe.loc[
