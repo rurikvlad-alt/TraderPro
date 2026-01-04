@@ -5,6 +5,9 @@ from freqtrade.strategy.interface import IStrategy
 from pandas import DataFrame
 
 class RSIBB_Momentum_Pro(IStrategy):
+    rsi_buy = 30
+    rsi_sell = 70
+    bb_width_min = 0.02
     timeframe = '1h'
     minimal_roi = {
         "0": 0.02,
@@ -29,7 +32,7 @@ class RSIBB_Momentum_Pro(IStrategy):
     def populate_buy_trend(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
         dataframe.loc[
             (
-                (dataframe["rsi"] < self.rsi_buy.value)
+                (dataframe["rsi"] < self.rsi_buy)
                 & (dataframe["close"] < dataframe["bb_lowerband"])
                 & (dataframe["bb_width"] > self.bb_width_min.value)
                 & (dataframe["momentum"] > 0)
